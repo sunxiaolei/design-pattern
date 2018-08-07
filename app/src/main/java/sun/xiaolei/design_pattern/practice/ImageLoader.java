@@ -23,7 +23,7 @@ public class ImageLoader {
     /**
      * 图片缓存
      */
-    private DoubleCache mImageCache;
+    private ImageCache mImageCache;
 
     /**
      * 线程池，线程数量为CPU数量
@@ -33,6 +33,10 @@ public class ImageLoader {
     public ImageLoader(Context context) {
         mContext = context;
         mImageCache = new DoubleCache();
+    }
+
+    public void setCache(ImageCache cache) {
+        this.mImageCache = cache;
     }
 
     public static Context getContext() {
