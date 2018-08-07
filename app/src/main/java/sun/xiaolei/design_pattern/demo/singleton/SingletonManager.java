@@ -1,4 +1,4 @@
-package sun.xiaolei.design_pattern.singleton;
+package sun.xiaolei.design_pattern.demo.singleton;
 
 import java.util.HashMap;
 import java.util.Map;
