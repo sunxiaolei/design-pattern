@@ -19,13 +19,11 @@ import java.util.concurrent.Executors;
  */
 public class ImageLoader {
 
-    private static final String TAG = "ImageLoader";
-
     private static Context mContext;
     /**
      * 图片缓存
      */
-    private ImageCache mImageCache;
+    private DoubleCache mImageCache;
 
     /**
      * 线程池，线程数量为CPU数量
@@ -34,7 +32,7 @@ public class ImageLoader {
 
     public ImageLoader(Context context) {
         mContext = context;
-        mImageCache = new ImageCache();
+        mImageCache = new DoubleCache();
     }
 
     public static Context getContext() {
@@ -56,20 +54,15 @@ public class ImageLoader {
         return bitmap;
     }
 
-    public void show(final String url, final ImageView iv) {
-        Bitmap bitmap = mImageCache.get(url);
-        if (bitmap != null) {
-            iv.setImageBitmap(bitmap);
-            return;
-        }
+    private void submitTask(final String url, final ImageView iv) {
         iv.setTag(url);
         mExecutorService.submit(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "download image");
+                LogUtil.d("download image");
                 final Bitmap bitmap = downloadImage(url);
                 if (bitmap != null) {
-                    mImageCache.set(url, bitmap);
+                    mImageCache.put(url, bitmap);
                     if (url.equals(iv.getTag())) {
                         iv.post(new Runnable() {
                             @Override
@@ -81,6 +74,15 @@ public class ImageLoader {
                 }
             }
         });
+    }
+
+    public void show(final String url, final ImageView iv) {
+        Bitmap bitmap = mImageCache.get(url);
+        if (bitmap != null) {
+            iv.setImageBitmap(bitmap);
+            return;
+        }
+        submitTask(url, iv);
     }
 
 }
