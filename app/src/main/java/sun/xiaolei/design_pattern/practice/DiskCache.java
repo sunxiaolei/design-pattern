@@ -18,14 +18,12 @@ import static android.os.Environment.isExternalStorageRemovable;
  */
 public class DiskCache implements ImageCache {
 
-    private static final int DISK_MAX_SIZE = 1024 * 1024 * 10;//10M
-
     private DiskLruCache mDiskCache;
 
     public DiskCache() {
-        File cacheFile = getDiskCacheDir(ImageLoader.getContext(), "dp_imgloader");
+        File cacheFile = getDiskCacheDir(ImageLoader.getContext(), ImageLoader.getConfig().getDiskPath());
         try {
-            mDiskCache = DiskLruCache.open(cacheFile, 1, 1, DISK_MAX_SIZE);
+            mDiskCache = DiskLruCache.open(cacheFile, 1, 1, ImageLoader.getConfig().getCacheMaxSize());
         } catch (IOException e) {
             e.printStackTrace();
         }

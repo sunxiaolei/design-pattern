@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import sun.xiaolei.design_pattern.practice.ImageLoader;
+import sun.xiaolei.design_pattern.practice.ImageLoaderConfig;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mImageLoader = new ImageLoader(this);
+        ImageLoader.getInstance().init(new ImageLoaderConfig.Builder(this).create());
 
 
         btn = findViewById(R.id.btn_getimg);
@@ -33,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mImageLoader.show(imgUrl, ivTest);
+                ImageLoader.getInstance().show(imgUrl, ivTest);
             }
         });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mImageLoader.show(imgUrl, ivTest2);
+                ImageLoader.getInstance().show(imgUrl, ivTest2);
             }
         });
     }
