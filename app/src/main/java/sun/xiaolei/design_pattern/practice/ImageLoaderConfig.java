@@ -11,7 +11,7 @@ public class ImageLoaderConfig {
 
     private Context context;
 
-    private int threadPoolNum;
+    private int threadCount;
 
     private ImageCache cachePolicy;
 
@@ -23,7 +23,7 @@ public class ImageLoaderConfig {
         this.context = context;
         this.diskPath = diskPath;
         this.cachePolicy = policy;
-        this.threadPoolNum = threads;
+        this.threadCount = threads;
         this.cacheMaxSize = cacheMaxSize;
     }
 
@@ -43,12 +43,12 @@ public class ImageLoaderConfig {
         this.diskPath = diskPath;
     }
 
-    public int getThreadPoolNum() {
-        return threadPoolNum;
+    public int getThreadCount() {
+        return threadCount;
     }
 
-    public void setThreadPoolNum(int threadPoolNum) {
-        this.threadPoolNum = threadPoolNum;
+    public void setThreadCount(int threadCount) {
+        this.threadCount = threadCount;
     }
 
     public long getCacheMaxSize() {
@@ -71,7 +71,7 @@ public class ImageLoaderConfig {
 
         private Context context;
 
-        private int threadPoolNum = Runtime.getRuntime().availableProcessors();//线程池数量
+        private int threadCount = Runtime.getRuntime().availableProcessors();//线程池数量
 
         private ImageCache cachePolicy;
 
@@ -83,9 +83,9 @@ public class ImageLoaderConfig {
             this.context = context;
         }
 
-        public Builder setThreadPoolNum(int num) {
+        public Builder setThreadCount(int num) {
             if (num > 0) {
-                this.threadPoolNum = num;
+                this.threadCount = num;
             }
             return this;
         }
@@ -110,7 +110,7 @@ public class ImageLoaderConfig {
         }
 
         public ImageLoaderConfig create() {
-            ImageLoaderConfig config = new ImageLoaderConfig(context, threadPoolNum, cachePolicy, diskPath, cacheMaxSize);
+            ImageLoaderConfig config = new ImageLoaderConfig(context, threadCount, cachePolicy, diskPath, cacheMaxSize);
             return config;
         }
 

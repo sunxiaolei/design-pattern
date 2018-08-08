@@ -3,6 +3,7 @@ package sun.xiaolei.design_pattern.practice;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -19,16 +20,15 @@ import java.util.concurrent.Executors;
 public class ImageLoader {
 
     private static Context mContext;
+    private static ImageLoaderConfig mConfig;
     /**
      * 图片缓存
      */
     private ImageCache mImageCache;
-    private static ImageLoaderConfig mConfig;
-
     /**
      * 线程池
      */
-    private ExecutorService mExecutorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private ExecutorService mExecutorService;
 
     private ImageLoader() {
     }
@@ -44,7 +44,7 @@ public class ImageLoader {
     public void init(ImageLoaderConfig config) {
         mContext = config.getContext();
         mConfig = config;
-        mExecutorService = Executors.newFixedThreadPool(mConfig.getThreadPoolNum());
+        mExecutorService = Executors.newFixedThreadPool(mConfig.getThreadCount());
         mImageCache = config.getCachePolicy();
     }
 
@@ -94,12 +94,41 @@ public class ImageLoader {
                             }
                         });
                     }
+                } else {
+                    if (errorRes != 0) {
+                        iv.setImageResource(errorRes);
+                    }
                 }
             }
         });
     }
 
-    public void show(final String url, final ImageView iv) {
+    private String url;
+    private int placeRes;
+    private int errorRes;
+
+    public ImageLoader load(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public ImageLoader placeholder(int res) {
+        this.placeRes = res;
+        return this;
+    }
+
+    public ImageLoader error(int res) {
+        this.errorRes = res;
+        return this;
+    }
+
+    public void into(ImageView iv) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        if (placeRes != 0) {
+            iv.setImageResource(placeRes);
+        }
         Bitmap bitmap = mImageCache.get(url);
         if (bitmap != null) {
             iv.setImageBitmap(bitmap);

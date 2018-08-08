@@ -34,14 +34,20 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageLoader.getInstance().show(imgUrl, ivTest);
+                ImageLoader.getInstance()
+                        .load(imgUrl)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .into(ivTest);
             }
         });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageLoader.getInstance().show(imgUrl, ivTest2);
+                ImageLoader.getInstance()
+                        .load(imgUrl + "0")
+                        .error(R.mipmap.ic_launcher_round)
+                        .into(ivTest2);
             }
         });
     }
