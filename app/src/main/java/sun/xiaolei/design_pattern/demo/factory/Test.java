@@ -3,7 +3,9 @@ package sun.xiaolei.design_pattern.demo.factory;
 /**
  * @author sun
  * description:
+ * 创建型模式
  * 定义：定义一个用于创建对象的接口，让子类决定实例化哪个类
+ * <p>
  * 使用场景：在任何需要生成复杂对象的地方，都可以使用工厂模式。复杂对象适合使用工厂模式，
  * 用new就可以完成创建的对象无需使用工厂模式。
  * <p>
